@@ -6,6 +6,7 @@ import Cast from '../show/Cast';
 import Details from '../show/Details';
 import Seasons from '../show/Seasons';
 import ShowMainData from '../show/ShowMainData';
+import { InfoBlock, ShowPageWrapper } from './Show.styled';
 
 const reducer = (prevState, action) => {
   switch (action.type) {
@@ -29,7 +30,7 @@ const initialState = {
 };
 
 const Show = () => {
-  const { id } = useParams();
+  const { showId } = useParams();
 
   const [{ show, isLoading, error }, dispatch] = useReducer(
     reducer,
@@ -39,7 +40,7 @@ const Show = () => {
   useEffect(() => {
     let isMounted = true;
 
-    apiGet(`shows/${id}?embed[]=seasons&embed[]=cast`)
+    apiGet(`shows/${showId}?embed[]=seasons&embed[]=cast`)
       .then(results => {
         if (isMounted) {
           dispatch({ type: 'FETCH_SUCCESS', show: results });
@@ -54,7 +55,7 @@ const Show = () => {
     return () => {
       isMounted = false;
     };
-  }, [id]);
+  }, [showId]);
 
   if (isLoading) {
     return <div>Data is being loaded</div>;
@@ -64,7 +65,7 @@ const Show = () => {
     return <div>Error occured: {error}</div>;
   }
   return (
-    <div>
+    <ShowPageWrapper>
       <ShowMainData
         image={show.image}
         name={show.name}
@@ -73,25 +74,25 @@ const Show = () => {
         tags={show.genres}
       />
 
-      <div>
+      <InfoBlock>
         <h2>Details</h2>
         <Details
           status={show.status}
           network={show.network}
           premiered={show.premiered}
         />
-      </div>
+      </InfoBlock>
 
-      <div>
+      <InfoBlock>
         <h2>Seasons</h2>
         <Seasons seasons={show._embedded.seasons} />
-      </div>
+      </InfoBlock>
 
-      <div>
+      <InfoBlock>
         <h2>Cast</h2>
         <Cast cast={show._embedded.cast} />
-      </div>
-    </div>
+      </InfoBlock>
+    </ShowPageWrapper>
   );
 };
 

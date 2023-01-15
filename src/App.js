@@ -14,7 +14,7 @@ function App() {
       <Route exact path="/starred">
         <Starred />
       </Route>
-      <Route exact path="/show/:id">
+      <Route exact path="/show/:showId">
         <Show />
       </Route>
       <Route>
