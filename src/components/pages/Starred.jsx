@@ -28,7 +28,7 @@ const Starred = () => {
     } else {
       setIsLoading(false);
     }
-  });
+  }, [starred]);
 
   return (
     <MainPage>
