@@ -25,6 +25,7 @@ const ShowGrid = ({ data }) => {
         return (
           <ShowCard
             key={show.id}
+            id={show.id}
             image={show.image ? show.image.medium : IMAGE_NOT_FOUND}
             summary={show.summary}
             onStarClick={onStarClick}
